@@ -7,18 +7,20 @@ public class SequentialNameRoomFactory implements RoomFactory {
 
     private static Map<String, Integer> nameCache = new HashMap<>();
 
-    public synchronized Room createRoom(String roomName) {
+    public Room createRoom(String roomName) {
         return new Room(roomName, createUniqueName(roomName));
     }
 
     private String createUniqueName(String name) {
-        if (!nameCache.containsKey(name)) {
-            nameCache.put(name, 1);
-            return name;
-        } else {
-            Integer currentCount = nameCache.get(name);
-            nameCache.put(name, currentCount + 1);
-            return name + "_" + currentCount;
+        synchronized (nameCache) {
+            if (!nameCache.containsKey(name)) {
+                nameCache.put(name, 1);
+                return name;
+            } else {
+                Integer currentCount = nameCache.get(name);
+                nameCache.put(name, currentCount + 1);
+                return name + "_" + currentCount;
+            }
         }
     }
 
