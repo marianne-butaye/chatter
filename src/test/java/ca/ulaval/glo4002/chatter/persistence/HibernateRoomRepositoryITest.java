@@ -27,6 +27,7 @@ public class HibernateRoomRepositoryITest {
     @After
     public void closeEntityManager() {
         entityManager.close();
+        EntityManagerFactoryProvider.reset();
     }
 
     @Test

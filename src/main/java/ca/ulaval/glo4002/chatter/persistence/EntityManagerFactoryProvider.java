@@ -14,4 +14,12 @@ public class EntityManagerFactoryProvider {
         return instance;
     }
 
+    public static void reset() {
+        if (instance != null) {
+            instance.close();
+            instance = null;
+        }
+
+    }
+
 }
